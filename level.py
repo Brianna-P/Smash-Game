@@ -1,24 +1,62 @@
-#from game import tile_size
+2#from game import tile_size
 import pygame
 from tile import Tile
+from state import State
 from player import Player
-from settings import *
+from settings import tile_size, level1platforms
 import math
 
-#FIXME: turn into state
 
-
-class Level():
-    def __init__(self, screen, level):
+class Level(State):
+    def __init__(self, game):
+        State.__init__(self, game)
+        level = 1
         self.layout = level
-        self.surface = screen
+        self.surface = self.game.screen
+        self.platformRects = level1platforms[level]
         self.tile_size = tile_size
         self.tiles = pygame.sprite.Group()
         self.zoom_factor = 1
         self.dist = 0
         self.prev_dist = self.dist
-        self.w, self.h = self.surface.get_size()
+        self.screen_width, self.screen_height = self.game.screen.get_size()
+        self.player1 = Player(1, (4 * self.tile_size + 32, 6* self.tile_size), 32, 64)
+        self.player2 = Player(2, (15 * self.tile_size + 32,6 * self.tile_size), 32, 64)
 
+    def update(self, actions):
+        self.screen_width, self.screen_height = self.game.screen.get_size()
+        self.player1.update()
+        self.player2.update() # beep boop dingleberry
+        
+        for event in pygame.event.get():
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                self.game.running = False
+
+    def render(self):
+        self.screen_width, self.screen_height = self.game.screen.get_size()
+
+        if(self.level == 1):
+            self.setup_level1()
+        elif(self.level == 2):
+            self.setup_level2()
+        elif(self.level == 3):
+            self.setup_level3() 
+        else:
+            self.setup_level4()
+
+        self.player1.draw(self.surface)
+        self.player2.draw(self.surface)
+
+   # def renderPlatforms1(self):
+   #     for platform in range(len(self.platformRects)):
+   #         temp_rect = platform
+   #         temp_rect.x *= self.zoom_factor
+   #         temp_rect.y *= self.zoom_factor
+   #         temp_rect.w *= self.zoom_factor
+   #         temp_rect.h *= self.zoom_factor
+    #
+    #        pygame.draw.rect(self.surface, (211, 211, 211), temp_rect, 1)
+   # 
 
     def setup_level1(self):
 
@@ -29,6 +67,13 @@ class Level():
 
         self.player1 = Player(1, (4 * self.tile_size + 32, 6* self.tile_size), 32, 64)
         self.player2 = Player(2, (15 * self.tile_size + 32,6 * self.tile_size), 32, 64)
+    def setup_level2(self):
+        pass
+    def setup_level3(self):
+        pass
+    def setup_level4(self):
+        pass
+        
     def setup_level(self):
         for row_index, row in enumerate(self.layout):
             for col_index, cell in enumerate(row):
@@ -91,3 +136,26 @@ class Level():
         pass
         for tile in self.tiles:
             tile.shift()
+
+    def enter_state(self, p1, p2, level):
+        print("level state")
+        pygame.display.set_caption('FIGHTT!!!')
+        self.player1 = p1
+        self.player2 = p2
+        self.level = level
+
+        if len(self.game.state_stack) > 1:
+            self.prev_state = self.game.state_stack[-1]
+        self.game.state_stack.append(self)
+
+        #why do you fraw the player in so many places
+
+    def enter_state1(self, p1, p2, level):
+        print("char state")
+        self.player1, self.player2 = p1, p2
+        self.level = level
+        pygame.display.set_caption('Choose Your Character')
+
+        if len(self.game.state_stack) > 1:
+            self.prev_state = self.game.state_stack[-1]
+        self.game.state_stack.append(self)

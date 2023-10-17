@@ -1,6 +1,5 @@
 import pygame
 from settings import *
-
 from level import Level
 from title import Title
 class game():
@@ -12,10 +11,11 @@ class game():
        # pygame.mixer.music.load("Brawl_Theme.mp3")
         self.tile_size = tile_size
         self.background_colour = (100, 100, 252)
-        screen_width, screen_height =  1028, 720 #len(level[0]) *tile_size,  len(level) * tile_size,
-        self.screen = pygame.display.set_mode((screen_width, screen_height), pygame.RESIZABLE)
+        self.screen_width, self.screen_height =  1028, 720 #len(level[0]) *tile_size,  len(level) * tile_size,
+        self.screen = pygame.display.set_mode((self.screen_width, self.screen_height), pygame.RESIZABLE)
         self.clock = pygame.time.Clock()
         self.FPS = 60
+        self.full_screen_ratio = (0.68, 0.76)
         self.state_stack = []
        # self.events = pygame.event.get()
         
@@ -38,7 +38,7 @@ class game():
 
     def render(self):
         self.state_stack[-1].render()
-        self.clock.tick(self.FPS)
+        #self.clock.tick(self.FPS)
         pygame.display.flip()
 
     def play_music(self):
@@ -54,13 +54,11 @@ class game():
             self.update()
             self.render()
 
-            self.screen.fill((99, 212, 252))
+            self.screen.fill((99, 100, 252))
           #  self.level.run()
          #   self.play_music()
-            
+            self.clock.tick(self.FPS)
 
-            
-            #self.reset_keys()
 
 
 
@@ -69,51 +67,3 @@ title = Title(g)
 g.state_stack.append(title)
 g.game_loop()
 pygame.display.quit()
-
-
-
-if False:"""     def get_events(self):
-       for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                self.playing = False
-                self.running = False
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_ESCAPE:
-                    self.playing = False
-                    self.running = False
-               # if event.key == pygame.K_SPACE:
-                #    self.actions["character_select"] = False
-                if event.key == pygame.K_a:
-                    self.actions['left'] = True
-                if event.key == pygame.K_d:
-                    self.actions['right'] = True
-                if event.key == pygame.K_w:
-                    self.actions['up'] = True
-                if event.key == pygame.K_s:
-                    self.actions['down'] = True
-                if event.key == pygame.K_p:
-                    self.actions['action1'] = True
-                if event.key == pygame.K_o:
-                    self.actions['action2'] = True    
-                if event.key == pygame.K_RETURN:
-                    self.actions['start'] = True  
-
-            if event.type == pygame.KEYUP:
-                if event.key == pygame.K_a:
-                    self.actions['left'] = False
-                if event.key == pygame.K_d:
-                    self.actions['right'] = False
-                if event.key == pygame.K_w:
-                    self.actions['up'] = False
-                if event.key == pygame.K_s:
-                    self.actions['down'] = False
-                if event.key == pygame.K_p:
-                    self.actions['action1'] = False
-                if event.key == pygame.K_o:
-                    self.actions['action2'] = False
-                if event.key == pygame.K_RETURN:
-                    self.actions['start'] = False   
-
-    def reset_keys(self):
-        for x in self.actions:
-            self.actions[x] = False """ and None
