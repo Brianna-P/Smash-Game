@@ -23,6 +23,7 @@ class Level(State):
         self.player1 = Player(1, (4 * self.tile_size + 32, 6* self.tile_size), 32, 64)
         self.player2 = Player(2, (15 * self.tile_size + 32,6 * self.tile_size), 32, 64)
 
+
     def update(self, actions):
         self.screen_width, self.screen_height = self.game.screen.get_size()
         #self.player1.update()
@@ -44,8 +45,7 @@ class Level(State):
         else:
             self.setup_level4()
 
-        self.player1.draw(self.surface)
-        self.player2.draw(self.surface)
+        self.render_level()
 
    # def renderPlatforms1(self):
    #     for platform in range(len(self.platformRects)):
@@ -59,11 +59,11 @@ class Level(State):
    # 
 
     def setup_level1(self):
-
         for p in level1platforms:
             #pygame.draw.rect(self.surface, (0,0,0), x)
             tile = Tile((p.x, p.y), p.w, p.h)
             self.tiles.add(tile)
+            pygame.draw.rect(self.surface, (0,0,0), p)
 
         self.player1 = Player(1, (4 * self.tile_size + 32, 6* self.tile_size), 32, 64)
         self.player2 = Player(2, (15 * self.tile_size + 32,6 * self.tile_size), 32, 64)
@@ -74,6 +74,13 @@ class Level(State):
     def setup_level4(self):
         pass
         
+    def render_level(self):
+        for p in level1platforms:
+            pygame.draw.rect(self.surface, (0,0,0), p)
+        self.player1.draw(self.surface)
+        self.player2.draw(self.surface)
+
+
     def setup_level(self):
         for row_index, row in enumerate(self.layout):
             for col_index, cell in enumerate(row):
