@@ -28,6 +28,10 @@ class LevelSelection(State):
         self.count = 1
         self.currentMap = Label(self.game.screen, 0, 0, 1, .5, button=True, text= self.currentlySelected) #, image="Assets/start2.png", hover_image="Assets/start.png"
 
+        self.player1 = None
+        self.player2 = None
+        self.level_state = Level(game)
+
         #self.create_levels()
         #self.create_labels()
         self.create_level_labels()
@@ -38,6 +42,9 @@ class LevelSelection(State):
         self.check_hover_location(x, y)
 
         for event in pygame.event.get():
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if self.hover_location != -1:
+                    self.level_state.enter_state(self.player1, self.player2, self.hover_location)
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_RETURN:
                     self.level_state.enter_state()
@@ -129,7 +136,9 @@ class LevelSelection(State):
                 return
 
 
-    def enter_state(self):
+    def enter_state(self, p1, p2):
+        self.player1 = p1
+        self.player2 = p2
         print("level state")
         pygame.display.set_caption('Choose Your Level')
 

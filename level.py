@@ -25,8 +25,8 @@ class Level(State):
 
     def update(self, actions):
         self.screen_width, self.screen_height = self.game.screen.get_size()
-        self.player1.update()
-        self.player2.update() # beep boop dingleberry
+        #self.player1.update()
+        #self.player2.update() # beep boop dingleberry
         
         for event in pygame.event.get():
             if event.type == pygame.MOUSEBUTTONDOWN:
@@ -140,8 +140,8 @@ class Level(State):
     def enter_state(self, p1, p2, level):
         print("level state")
         pygame.display.set_caption('FIGHTT!!!')
-        self.player1 = p1
-        self.player2 = p2
+        #self.player1 = p1
+        #self.player2 = p2
         self.level = level
 
         if len(self.game.state_stack) > 1:

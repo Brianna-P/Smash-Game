@@ -60,7 +60,7 @@ class CharacterSelection(State):
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_RETURN:
                     if(self.currently_selected[0] != "" and self.currently_selected[1] != ""):
-                        self.level_select_state.enter_state()
+                        self.level_select_state.enter_state(self.player1, self.player2)
                         #self.level_state.enter_state(self.player1, self.player2, 1)
                 if event.key == pygame.K_ESCAPE:
                     self.game.running = False
