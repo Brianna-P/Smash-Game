@@ -26,8 +26,11 @@ class LevelSelection(State):
         self.font = pygame.font.SysFont('Arial', 25)
         self.level_state = None
         self.count = 1
-        self.create_levels()
-        self.create_labels()
+        self.currentMap = Label(self.game.screen, 0, 0, 1, .5, button=True, text= self.currentlySelected) #, image="Assets/start2.png", hover_image="Assets/start.png"
+
+        #self.create_levels()
+        #self.create_labels()
+        self.create_level_labels()
 
     #Set locations to be selected or hovered with mouse pos
     def update(self, actions):
@@ -49,14 +52,24 @@ class LevelSelection(State):
             #self.game.level_one.enter_state()
     def render(self):
         self.screen_width, self.screen_height = self.screen.get_size()
-        self.render_levels()
-        self.render_labels()
+        #self.render_levels()
+        self.render_level_labels()
+        #self.render_labels()
         #pygame.display.update()
 
     def create_labels(self):
         for index in range(1,3):
             label_rect = pygame.rect.Rect(self.screen_width * ((index-1)/2) +10, self.screen_height - self.screen_height/8, self.screen_width/4, self.screen_height/2)
             self.labels.append(label_rect)
+
+    def create_level_labels(self):
+        for index, level in enumerate(self.levels_display):
+            txt = "Map {}".format(index+1)
+            map = Label(self.game.screen, 0, .5+ index/(len(self.levels_display) * 2), 1, 1/(len(self.levels_display) * 2), button=True, text= txt) #, image="Assets/start2.png", hover_image="Assets/start.png"
+            self.labels.append(map)
+            self.level_rects.append(map.rect)
+
+
 
     def create_levels(self):
         for index, level in enumerate(self.levels_display):
@@ -70,6 +83,17 @@ class LevelSelection(State):
             self.labels[index] = label_rect
             self.screen.blit(text_surface, (self.labels[index].x, self.labels[index].y))
 
+
+    def render_level_labels(self):
+        for index, label in enumerate(self.labels):
+            if self.hover_location == index:
+                label.hover_label()  
+            else:
+                label.render_label() 
+
+        if self.hover_location != -1:
+            self.currentMap.text = self.labels[self.hover_location].text
+            self.currentMap.render_label()
 
     def render_levels(self):
         for index, rect in enumerate(self.level_rects):
@@ -99,10 +123,10 @@ class LevelSelection(State):
 
     def check_hover_location(self, xlo, ylo):
         for index, rect in enumerate(self.level_rects):
+            print(xlo, ylo)
             if(xlo <= rect.x + rect.w and rect.x <= xlo) and (ylo <= rect.y + rect.h and rect.y <= ylo):
                 self.hover_location = index
                 return
-        self.hover_location = -1
 
 
     def enter_state(self):

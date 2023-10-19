@@ -14,6 +14,9 @@ class Label():
         self.hover_image = hover_image
         self.screen_width, self.screen_height = self.screen.get_size()
         self.rect = pygame.rect.Rect(x, y, w, h)
+        self.font = pygame.font.SysFont('Arial', 25)
+        self.rect = pygame.rect.Rect(self.x * self.screen_width, self.y * self.screen_height, self.w * self.screen_width, self.h * self.screen_height)
+
 
 
     

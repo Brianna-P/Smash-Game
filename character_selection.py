@@ -23,8 +23,9 @@ class CharacterSelection(State):
         self.popOut =1
         self.labels = []
         self.font = pygame.font.SysFont('Arial', 25)
+        #self.level_select_state = LevelSelection(self.game)
         self.level_select_state = LevelSelection(self.game)
-        self.level_state = Level(game, "option4.png", "option2.png", 1)
+        #self.level_state = Level(game, "option4.png", "option2.png", 1)
         self.count = 1
         self.player1_undo = Label(self.screen, (self.screen_width) - 150, (self.screen_height/2) -50 - 100, 300, 100, button=True, text="NEW CHARACTER", image="start.png", hover_image="start2.png")
         self.player1_undo = Label(self.screen, (self.screen_width / 2) - 100, (self.screen_height/2) -50 - 100, 300, 100, button=True, text="NEW CHARACTER", image="start.png", hover_image="start2.png")
@@ -59,7 +60,8 @@ class CharacterSelection(State):
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_RETURN:
                     if(self.currently_selected[0] != "" and self.currently_selected[1] != ""):
-                        self.level_state.enter_state(self.player1, self.player2, 1)
+                        self.level_select_state.enter_state()
+                        #self.level_state.enter_state(self.player1, self.player2, 1)
                 if event.key == pygame.K_ESCAPE:
                     self.game.running = False
 
