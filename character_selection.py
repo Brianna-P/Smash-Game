@@ -62,11 +62,13 @@ class CharacterSelection(State):
                 if event.key == pygame.K_RETURN:
                     if(self.currently_selected[0] != "" and self.currently_selected[1] != ""):
                         p1_selected = Player(1, (.4,.5), .1, .05, self.characters_display[self.player1])
-                        p2_selected = Player(2, (.6,.5), .1, .05, self.characters_display[self.player1])
+                        p2_selected = Player(2, (.6,.5), .1, .05, self.characters_display[self.player2])
                         self.level_select_state.enter_state(p1_selected, p2_selected)
                         #self.level_state.enter_state(self.player1, self.player2, 1)
                 if event.key == pygame.K_ESCAPE:
                     self.game.running = False
+            if event.type == pygame.QUIT:
+                self.game.running = False
 
                 
 

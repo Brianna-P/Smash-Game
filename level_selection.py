@@ -51,6 +51,8 @@ class LevelSelection(State):
                     #self.level_state.enter_state()
                 if event.key == pygame.K_ESCAPE:
                     self.game.running = False
+            if event.type == pygame.QUIT:
+                self.game.running = False
 
                 
 

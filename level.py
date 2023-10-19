@@ -13,7 +13,7 @@ class Level(State):
         level = 1
         self.layout = level
         self.surface = self.game.screen
-        self.platformRects = level1platforms[level]
+        self.platformRects = level1platforms
         self.tile_size = tile_size
         self.tiles = pygame.sprite.Group()
         self.zoom_factor = 1
@@ -33,9 +33,13 @@ class Level(State):
         for event in pygame.event.get():
             if event.type == pygame.MOUSEBUTTONDOWN:
                 self.game.running = False
+            if event.type == pygame.QUIT:
+                self.game.running = False
 
     def render(self):
         self.screen_width, self.screen_height = self.game.screen.get_size()
+        #self.surface.blit(self.level_image, (0,0))
+        self.surface.blit(pygame.transform.scale(self.level_image, (self.screen_width, self.screen_height)), (0,0))
 
         if(self.level == 1):
             self.setup_level1()
@@ -77,8 +81,9 @@ class Level(State):
         pass
         
     def render_level(self):
-        for p in level1platforms:
-            pygame.draw.rect(self.surface, (0,0,0), p)
+        for p in self.platformRects:
+            temp_rect = pygame.rect.Rect(self.screen_width* p[0], self.screen_height * p[1], self.screen_width * p[2], self.screen_height * p[3])
+            pygame.draw.rect(self.surface, (0,0,0), temp_rect)
         
         self.player1.draw(self.surface, self.screen_width, self.screen_height)
         self.player2.draw(self.surface, self.screen_width, self.screen_height)
@@ -163,7 +168,8 @@ class Level(State):
     def enter_state1(self, p1, p2, level_image, level_platforms):
         print("Map")
         self.player1, self.player2 = p1, p2
-        self.level_image = level_image
+        self.level_image = pygame.image.load("Assets/{}".format(level_image)).convert_alpha()
+
         self.level_platforms = level_platforms
         pygame.display.set_caption('FIGHTTT')
 

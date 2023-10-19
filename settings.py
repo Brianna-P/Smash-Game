@@ -11,8 +11,15 @@ level = [
 ]
 tile_size = 64
 level1platforms =  [
-                    pygame.Rect(2*tile_size +32, 7 *tile_size, tile_size * 16, 32), (1/4, 2/3 , 1/2, 1/16),
-                    pygame.Rect(4*tile_size +32, 4 *tile_size, tile_size * 2, 32),(1/2, 1/3 , 1/3, 1/16),
-                    pygame.Rect(14*tile_size, 4 *tile_size, tile_size * 2, 32),(1/2, 2/3 , 1/3, 1/16),
-                    pygame.Rect(9*tile_size +16, 2 *tile_size, tile_size * 2, 32),(3/4, 2/3 , 1/3, 1/16)
-                    ]
+
+
+        [0.5 - 0.07, 0.3, 0.15, 0.05],#top
+        [0.5 - 0.32, 0.5, 0.15, 0.05],#left
+        [0.5 + 0.17, 0.5, 0.15, 0.05],#right
+        [0.1, 0.7, 0.8, 0.05],#bot
+
+
+
+
+
+]
