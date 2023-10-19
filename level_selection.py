@@ -2,6 +2,7 @@
 from state import State
 from label import Label
 from level import Level
+from settings import level1platforms
 import pygame
 print("yo cuzzbob")
 
@@ -14,7 +15,7 @@ class LevelSelection(State):
         self.screen = game.screen
         self.screen_width, self.screen_height = self.screen.get_size()
         self.prev_state = None
-        self.levels_display = {"Level1" : "imgpath", "Level2" : "imgpath", "Level3" : "imgpath", "Level4" : "imgpath"}
+        self.levels_display = {"Map1" : "map1.jpeg", "Map2" : "map2.jpeg", "Map3" : "map3.jpeg", "Map4" : "map4.jpeg"}
         self.num_levels = len(self.levels_display)
         self.currentlySelected = ["", ""]
         self.level_rects = []
@@ -44,10 +45,10 @@ class LevelSelection(State):
         for event in pygame.event.get():
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if self.hover_location != -1:
-                    self.level_state.enter_state(self.player1, self.player2, self.hover_location)
+                    self.level_state.enter_state1(self.player1, self.player2, list(self.levels_display.values())[self.hover_location], level1platforms[self.hover_location])
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_RETURN:
-                    self.level_state.enter_state()
+                #if event.key == pygame.K_RETURN:
+                    #self.level_state.enter_state()
                 if event.key == pygame.K_ESCAPE:
                     self.game.running = False
 
@@ -71,9 +72,9 @@ class LevelSelection(State):
 
     def create_level_labels(self):
         for index, level in enumerate(self.levels_display):
-            txt = "Map {}".format(index+1)
-            map_image = "Assets/map{}.jpeg".format(index+1)
-            map = Label(self.game.screen, 0, .5+ index/(len(self.levels_display) * 2), 1, 1/(len(self.levels_display) * 2), button=True, text= txt, image= map_image, hover_image= map_image) #, hover_image="Assets/start.png"
+            txt = "Map{}".format(index+1)
+            #map_image = "Assets/map{}.jpeg".format(index+1)
+            map = Label(self.game.screen, 0, .5+ index/(len(self.levels_display) * 2), 1, 1/(len(self.levels_display) * 2), button=True, text= txt, image= "Assets/{}".format(self.levels_display[txt]), hover_image= "Assets/{}".format(self.levels_display[txt])) #, hover_image="Assets/start.png"
             self.labels.append(map)
             self.level_rects.append(map.rect)
 

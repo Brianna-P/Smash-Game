@@ -18,10 +18,11 @@ class Level(State):
         self.tiles = pygame.sprite.Group()
         self.zoom_factor = 1
         self.dist = 0
+        self.level = 0
         self.prev_dist = self.dist
         self.screen_width, self.screen_height = self.game.screen.get_size()
-        self.player1 = Player(1, (4 * self.tile_size + 32, 6* self.tile_size), 32, 64)
-        self.player2 = Player(2, (15 * self.tile_size + 32,6 * self.tile_size), 32, 64)
+        #self.player1 = Player(1, (4 * self.tile_size + 32, 6* self.tile_size), 32, 64)
+        #self.player2 = Player(2, (15 * self.tile_size + 32,6 * self.tile_size), 32, 64)
 
 
     def update(self, actions):
@@ -59,6 +60,7 @@ class Level(State):
    # 
 
     def setup_level1(self):
+        pass
         for p in level1platforms:
             #pygame.draw.rect(self.surface, (0,0,0), x)
             tile = Tile((p.x, p.y), p.w, p.h)
@@ -77,8 +79,9 @@ class Level(State):
     def render_level(self):
         for p in level1platforms:
             pygame.draw.rect(self.surface, (0,0,0), p)
-        self.player1.draw(self.surface)
-        self.player2.draw(self.surface)
+        
+        self.player1.draw(self.surface, self.screen_width, self.screen_height)
+        self.player2.draw(self.surface, self.screen_width, self.screen_height)
 
 
     def setup_level(self):
@@ -157,11 +160,12 @@ class Level(State):
 
         #why do you fraw the player in so many places
 
-    def enter_state1(self, p1, p2, level):
-        print("char state")
+    def enter_state1(self, p1, p2, level_image, level_platforms):
+        print("Map")
         self.player1, self.player2 = p1, p2
-        self.level = level
-        pygame.display.set_caption('Choose Your Character')
+        self.level_image = level_image
+        self.level_platforms = level_platforms
+        pygame.display.set_caption('FIGHTTT')
 
         if len(self.game.state_stack) > 1:
             self.prev_state = self.game.state_stack[-1]

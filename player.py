@@ -1,12 +1,17 @@
 import pygame
 
 class Player(pygame.sprite.Sprite):
-    def __init__(self, player, pos, width, height):
+    def __init__(self, player, pos, width, height, image):
         super().__init__()
         self.player = player
-        self.image = pygame.Surface((width, height))
-        self.image.fill('blue')
-        self.rect = self.image.get_rect(topleft = pos)
+        #self.image = pygame.Surface((width, height))
+        #self.image.fill('blue')
+        self.img = pygame.image.load(image).convert_alpha()
+        #self.rect = self.image.get_rect(topleft = pos)
+        self.x, self.y, self.w, self.h = pos[0], pos[1], width, height
+        #self.screen_width, self.screen_height = self.game.screen.get_size()
+        #self.rect = pygame.rect.Rect(self.screen_width * self.x, self.screen_height * self.y, self.screen_width * self.w, self.screen_height * self.h)
+
         self.movable = True
         self.gravity = 0.2
         self.jump_speed = -5
@@ -19,8 +24,11 @@ class Player(pygame.sprite.Sprite):
         self.lastJump = 0
         self.canJump = True
     
-    def draw(self, surface):
-        pygame.draw.rect(surface, (0,0,0), self.rect)
+    def draw(self, surface, screen_width, screen_height):
+        #pygame.draw.rect(surface, (0,0,0), self.rect)
+        self.rect = pygame.rect.Rect(screen_width * self.x, screen_height * self.y, screen_width * self.w, screen_height * self.h)
+        surface.blit(pygame.transform.scale(self.img, (self.rect.w, self.rect.h)), self.rect)
+            
 
     def get_input(self):
         if self.movable:
