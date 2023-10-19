@@ -72,7 +72,8 @@ class LevelSelection(State):
     def create_level_labels(self):
         for index, level in enumerate(self.levels_display):
             txt = "Map {}".format(index+1)
-            map = Label(self.game.screen, 0, .5+ index/(len(self.levels_display) * 2), 1, 1/(len(self.levels_display) * 2), button=True, text= txt) #, image="Assets/start2.png", hover_image="Assets/start.png"
+            map_image = "Assets/map{}.jpeg".format(index+1)
+            map = Label(self.game.screen, 0, .5+ index/(len(self.levels_display) * 2), 1, 1/(len(self.levels_display) * 2), button=True, text= txt, image= map_image, hover_image= map_image) #, hover_image="Assets/start.png"
             self.labels.append(map)
             self.level_rects.append(map.rect)
 
@@ -100,6 +101,7 @@ class LevelSelection(State):
 
         if self.hover_location != -1:
             self.currentMap.text = self.labels[self.hover_location].text
+            self.currentMap.image = self.labels[self.hover_location].image
             self.currentMap.render_label()
 
     def render_levels(self):
