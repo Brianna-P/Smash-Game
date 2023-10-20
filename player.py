@@ -1,9 +1,10 @@
 import pygame
 
 class Player(pygame.sprite.Sprite):
-    def __init__(self, player, pos, width, height, image):
+    def __init__(self, player, name, pos, width, height, image):
         super().__init__()
         self.player = player
+        self.name = name
         #self.image = pygame.Surface((width, height))
         #self.image.fill('blue')
         self.img = pygame.image.load(image).convert_alpha()
@@ -23,9 +24,14 @@ class Player(pygame.sprite.Sprite):
         self.jumpsLeft = 2
         self.lastJump = 0
         self.canJump = True
+        self.font = pygame.font.SysFont('Arial', 25)
     
     def draw(self, surface, screen_width, screen_height):
         #pygame.draw.rect(surface, (0,0,0), self.rect)
+        text_surface = self.font.render(self.name, True, (255,0,0))
+        label_rect = pygame.rect.Rect(screen_width * self.x, screen_height * self.y - 30, screen_width *0.10, screen_height * 0.10)
+        surface.blit(text_surface, label_rect)
+
         self.rect = pygame.rect.Rect(screen_width * self.x, screen_height * self.y, screen_width * self.w, screen_height * self.h)
         surface.blit(pygame.transform.scale(self.img, (self.rect.w, self.rect.h)), self.rect)
             

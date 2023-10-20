@@ -4,7 +4,7 @@ from label import Label
 from level import Level
 from settings import level1platforms
 import pygame
-print("yo cuzzbob")
+print("yo POOP")
 
 #FIXME Are we gonna chnge this to just level
 class LevelSelection(State):
@@ -31,7 +31,6 @@ class LevelSelection(State):
 
         self.player1 = None
         self.player2 = None
-        self.level_state = Level(game)
 
         #self.create_levels()
         #self.create_labels()
@@ -45,7 +44,8 @@ class LevelSelection(State):
         for event in pygame.event.get():
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if self.hover_location != -1:
-                    self.level_state.enter_state1(self.player1, self.player2, list(self.levels_display.values())[self.hover_location], level1platforms[self.hover_location])
+                    level_state = Level(self.game)
+                    level_state.enter_state1(self.player1, self.player2, list(self.levels_display.values())[self.hover_location], level1platforms[self.hover_location])
             if event.type == pygame.KEYDOWN:
                 #if event.key == pygame.K_RETURN:
                     #self.level_state.enter_state()
@@ -95,6 +95,7 @@ class LevelSelection(State):
             self.screen.blit(text_surface, (self.labels[index].x, self.labels[index].y))
 
 
+
     def render_level_labels(self):
         for index, label in enumerate(self.labels):
             if self.hover_location == index:
@@ -135,7 +136,7 @@ class LevelSelection(State):
 
     def check_hover_location(self, xlo, ylo):
         for index, rect in enumerate(self.level_rects):
-            print(xlo, ylo)
+          #  print(xlo, ylo)
             if(xlo <= rect.x + rect.w and rect.x <= xlo) and (ylo <= rect.y + rect.h and rect.y <= ylo):
                 self.hover_location = index
                 return

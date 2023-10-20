@@ -19,7 +19,10 @@ class Level(State):
         self.zoom_factor = 1
         self.dist = 0
         self.level = 0
+        self.timer = 0
         self.prev_dist = self.dist
+        self.font = pygame.font.SysFont('Arial', 25)
+
         self.screen_width, self.screen_height = self.game.screen.get_size()
         #self.player1 = Player(1, (4 * self.tile_size + 32, 6* self.tile_size), 32, 64)
         #self.player2 = Player(2, (15 * self.tile_size + 32,6 * self.tile_size), 32, 64)
@@ -40,45 +43,9 @@ class Level(State):
         self.screen_width, self.screen_height = self.game.screen.get_size()
         #self.surface.blit(self.level_image, (0,0))
         self.surface.blit(pygame.transform.scale(self.level_image, (self.screen_width, self.screen_height)), (0,0))
-
-        if(self.level == 1):
-            self.setup_level1()
-        elif(self.level == 2):
-            self.setup_level2()
-        elif(self.level == 3):
-            self.setup_level3() 
-        else:
-            self.setup_level4()
-
         self.render_level()
+        self.render_clock()
 
-   # def renderPlatforms1(self):
-   #     for platform in range(len(self.platformRects)):
-   #         temp_rect = platform
-   #         temp_rect.x *= self.zoom_factor
-   #         temp_rect.y *= self.zoom_factor
-   #         temp_rect.w *= self.zoom_factor
-   #         temp_rect.h *= self.zoom_factor
-    #
-    #        pygame.draw.rect(self.surface, (211, 211, 211), temp_rect, 1)
-   # 
-
-    def setup_level1(self):
-        pass
-        for p in level1platforms:
-            #pygame.draw.rect(self.surface, (0,0,0), x)
-            tile = Tile((p.x, p.y), p.w, p.h)
-            self.tiles.add(tile)
-            pygame.draw.rect(self.surface, (0,0,0), p)
-
-        self.player1 = Player(1, (4 * self.tile_size + 32, 6* self.tile_size), 32, 64)
-        self.player2 = Player(2, (15 * self.tile_size + 32,6 * self.tile_size), 32, 64)
-    def setup_level2(self):
-        pass
-    def setup_level3(self):
-        pass
-    def setup_level4(self):
-        pass
         
     def render_level(self):
         for p in self.platformRects:
@@ -87,6 +54,19 @@ class Level(State):
         
         self.player1.draw(self.surface, self.screen_width, self.screen_height)
         self.player2.draw(self.surface, self.screen_width, self.screen_height)
+
+    def render_clock(self):
+        time = (10000 - self.timer)/1000
+        if(time < 0):
+            self.game.state_stack.pop()
+            self.game.state_stack.pop()
+            self.game.state_stack.pop()
+
+        text_surface = self.font.render(str(time), True, (255,0,0))
+        label_rect = pygame.rect.Rect(self.screen_width * 0.5 -.05, 0, self.screen_width *0.10, self.screen_height * 0.10)
+        self.surface.blit(text_surface, label_rect)
+        self.timer = pygame.time.get_ticks()
+
 
 
     def setup_level(self):
@@ -169,7 +149,7 @@ class Level(State):
         print("Map")
         self.player1, self.player2 = p1, p2
         self.level_image = pygame.image.load("Assets/{}".format(level_image)).convert_alpha()
-
+        self.timer = pygame.time.get_ticks()
         self.level_platforms = level_platforms
         pygame.display.set_caption('FIGHTTT')
 

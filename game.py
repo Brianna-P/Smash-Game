@@ -3,7 +3,7 @@ from settings import *
 from level import Level
 from title import Title
 class game():
-    def __init__(self):     
+    def __init__(self):
 
         #Initial screen setup
         pygame.init()
@@ -18,7 +18,7 @@ class game():
         self.full_screen_ratio = (0.68, 0.76)
         self.state_stack = []
        # self.events = pygame.event.get()
-        
+
         #States
         #self.title = Title(self)
 
@@ -50,17 +50,13 @@ class game():
     def game_loop(self): 
         while self.running:
             #self.get_events()
-            
+
             self.update()
             self.render()
-
             self.screen.fill((99, 100, 252))
           #  self.level.run()
          #   self.play_music()
             self.clock.tick(self.FPS)
-
-
-
 
 g = game()
 title = Title(g)

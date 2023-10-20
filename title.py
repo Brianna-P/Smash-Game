@@ -16,7 +16,6 @@ class Title(State):
         self.screen_width, self.screen_height= self.game.screen.get_size()
         self.hovering_start = False
         self.hovering_quit = False
-        self.char_state = CharacterSelection(self.game)
         self.start_button = Label(self.game.screen, 0.354, 0.431 , 0.2918, 0.139, button=True, text="START", image="Assets/start2.png", hover_image="Assets/start.png")
         self.quit_button = Label(self.game.screen, 0.354, 0.431 + 0.15, 0.2918, 0.139, button=True, text="START", image="Assets/start2.png", hover_image="Assets/start.png")
         self.hover_location = -1
@@ -29,7 +28,7 @@ class Title(State):
 
 
     def update(self, actions):
-        print(self.game.screen.get_size())
+       # print(self.game.screen.get_size())
         mouse_x, mouse_y = pygame.mouse.get_pos()
         self.screen_width, self.screen_height = self.game.screen.get_size()
         
@@ -50,7 +49,8 @@ class Title(State):
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if self.hover_location != -1:
                     if self.hover_location == 0:
-                        self.char_state.enter_state()
+                        char_state = CharacterSelection(self.game)
+                        char_state.enter_state()
                     if self.hover_location == 1:
                         self.game.running = False
                # if(mouse_x <= self.quit_button.rect.x + self.quit_button.rect.w and self.quit_button.rect.x <= mouse_x) and (mouse_y <= self.quit_button.rect.y + self.quit_button.rect.h and self.quit_button.rect.y <= mouse_y):
