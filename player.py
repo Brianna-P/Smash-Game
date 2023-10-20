@@ -24,17 +24,38 @@ class Player(pygame.sprite.Sprite):
         self.jumpsLeft = 2
         self.lastJump = 0
         self.canJump = True
+        self.health = 100
         self.font = pygame.font.SysFont('Arial', 25)
     
     def draw(self, surface, screen_width, screen_height):
         #pygame.draw.rect(surface, (0,0,0), self.rect)
         text_surface = self.font.render(self.name, True, (255,0,0))
-        label_rect = pygame.rect.Rect(screen_width * self.x, screen_height * self.y - 30, screen_width *0.10, screen_height * 0.10)
+        label_rect = pygame.rect.Rect(screen_width * self.x, screen_height * self.y - 50, screen_width *0.10, screen_height * 0.10)
         surface.blit(text_surface, label_rect)
+
+        color = (255, 0 ,0)
+        if self.health > 20:
+            color = (0, 255, 255)
+        elif self.health > 50:
+            color = (0, 128, 0)
 
         self.rect = pygame.rect.Rect(screen_width * self.x, screen_height * self.y, screen_width * self.w, screen_height * self.h)
         surface.blit(pygame.transform.scale(self.img, (self.rect.w, self.rect.h)), self.rect)
             
+        if self.player == 1:
+            corner_image_rect = pygame.rect.Rect(0, 0, screen_width * 0.1 , screen_height * 0.1)
+            pygame.draw.rect(surface, (0,0,0), corner_image_rect)
+            health_rect = pygame.rect.Rect(screen_width * self.x, screen_height * self.y - 30, screen_width *0.10, screen_height * 0.10)
+            pygame.draw.rect(surface, color, health_rect)
+
+            surface.blit(pygame.transform.scale(self.img, (0.10 * screen_width, 0.10 * screen_height)), corner_image_rect)
+        elif self.player == 2:
+            corner_image_rect = pygame.rect.Rect(screen_width * .9, 0, screen_width * 0.1, screen_height * 0.1)
+            pygame.draw.rect(surface, (0,0,0), corner_image_rect)
+            health_rect = pygame.rect.Rect(screen_width * self.x, screen_height * self.y - 30, screen_width *0.10, screen_height * 0.10)
+            pygame.draw.rect(surface, color, health_rect)
+            surface.blit(pygame.transform.scale(self.img, (0.10 * screen_width, 0.10 * screen_height)), corner_image_rect)
+        
 
     def get_input(self):
         if self.movable:

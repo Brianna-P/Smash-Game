@@ -25,7 +25,6 @@ class LevelSelection(State):
         self.popOut =1
         self.labels = []
         self.font = pygame.font.SysFont('Arial', 25)
-        self.level_state = None
         self.count = 1
         self.currentMap = Label(self.game.screen, 0, 0, 1, .5, button=True, text= self.currentlySelected) #, image="Assets/start2.png", hover_image="Assets/start.png"
 

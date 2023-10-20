@@ -56,8 +56,9 @@ class Level(State):
         self.player2.draw(self.surface, self.screen_width, self.screen_height)
 
     def render_clock(self):
-        time = (10000 - self.timer)/1000
+        time = (60000 - (pygame.time.get_ticks() - self.timer))/1000
         if(time < 0):
+
             self.game.state_stack.pop()
             self.game.state_stack.pop()
             self.game.state_stack.pop()
@@ -65,9 +66,7 @@ class Level(State):
         text_surface = self.font.render(str(time), True, (255,0,0))
         label_rect = pygame.rect.Rect(self.screen_width * 0.5 -.05, 0, self.screen_width *0.10, self.screen_height * 0.10)
         self.surface.blit(text_surface, label_rect)
-        self.timer = pygame.time.get_ticks()
-
-
+        #self.timer = pygame.time.get_ticks()
 
     def setup_level(self):
         for row_index, row in enumerate(self.layout):

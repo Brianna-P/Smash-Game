@@ -63,3 +63,35 @@ title = Title(g)
 g.state_stack.append(title)
 g.game_loop()
 pygame.display.quit()
+
+
+#FIXME
+#PLAYER:
+#Input player player interactions (attacks, movement)
+#Make players move
+#Find player sprite images (walking, fighting, jumping, etc)
+#Input player sprite animations
+#Set player damage and health and shield and abilities
+#Keep track of player stats
+
+#MAP SCREEN
+#Fix zoom and pan (work on aspect ratio conversions of platforms & characters)
+#Add health bar
+#implement multiple rounds??
+
+#CHAR SELECTION SCREEN
+#Add character banner
+#Fix 'floating' labels when character chosen
+
+#MISC
+#Create custom GUI elements
+#Fix music on different states & sound effects
+#Make various map layouts
+#Eat poop
+#Add end screen
+#GET PROF PERMISSION
+#clean up screens (ie title)
+
+
+
+
