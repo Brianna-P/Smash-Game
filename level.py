@@ -63,8 +63,8 @@ class Level(State):
             self.game.state_stack.pop()
             self.game.state_stack.pop()
 
-        text_surface = self.font.render(str(time), True, (255,0,0))
-        label_rect = pygame.rect.Rect(self.screen_width * 0.5 -.05, 0, self.screen_width *0.10, self.screen_height * 0.10)
+        text_surface = self.font.render(str(math.ceil(time)), True, (255,0,0))
+        label_rect = pygame.rect.Rect(self.screen_width * 0.5 - (self.screen_width * 0.015), 0, 0, self.screen_height * 0.05)
         self.surface.blit(text_surface, label_rect)
         #self.timer = pygame.time.get_ticks()
 
@@ -90,7 +90,7 @@ class Level(State):
         
     def run(self):
         #self.camera()
-        self.tiles.draw(self.surface)
+        #self.tiles.draw(self.surface)
         self.player1.update(self.tiles)
         self.player2.update(self.tiles)
         #self.renderPlatforms()

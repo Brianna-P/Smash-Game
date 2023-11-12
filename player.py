@@ -45,15 +45,15 @@ class Player(pygame.sprite.Sprite):
         if self.player == 1:
             corner_image_rect = pygame.rect.Rect(0, 0, screen_width * 0.1 , screen_height * 0.1)
             pygame.draw.rect(surface, (0,0,0), corner_image_rect)
-            health_rect = pygame.rect.Rect(screen_width * self.x, screen_height * self.y - 30, screen_width *0.10, screen_height * 0.10)
-            #pygame.draw.rect(surface, color, health_rect)
+            health_rect = pygame.rect.Rect(screen_width * 0.1, 0, screen_width *0.5 - screen_width * 0.1, screen_height * 0.02)
+            pygame.draw.rect(surface, color, health_rect)
 
             surface.blit(pygame.transform.scale(self.img, (0.10 * screen_width, 0.10 * screen_height)), corner_image_rect)
         elif self.player == 2:
             corner_image_rect = pygame.rect.Rect(screen_width * .9, 0, screen_width * 0.1, screen_height * 0.1)
             pygame.draw.rect(surface, (0,0,0), corner_image_rect)
-            health_rect = pygame.rect.Rect(screen_width * self.x, screen_height * self.y - 30, screen_width *0.10, screen_height * 0.10)
-            #pygame.draw.rect(surface, color, health_rect)
+            health_rect = pygame.rect.Rect(screen_width * 0.5, 0, screen_width *0.5 - screen_width * 0.1, screen_height * 0.02)
+            pygame.draw.rect(surface, color, health_rect)
             surface.blit(pygame.transform.scale(self.img, (0.10 * screen_width, 0.10 * screen_height)), corner_image_rect)
         
 
