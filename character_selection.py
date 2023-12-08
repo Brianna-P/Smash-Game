@@ -61,8 +61,8 @@ class CharacterSelection(State):
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_RETURN:
                     if(self.currently_selected[0] != "" and self.currently_selected[1] != ""):
-                        p1_selected = Player(1, self.player1, (.4,.5), .1, .05, self.characters_display[self.player1])
-                        p2_selected = Player(2, self.player2, (.6,.5), .1, .05, self.characters_display[self.player2])
+                        p1_selected = Player(1, self.game, str(self.player1), (.4,.5), .1, .05, self.characters_display[self.player1])
+                        p2_selected = Player(2, self.game, str(self.player2), (.6,.5), .1, .05, self.characters_display[self.player2])
                         self.level_select_state = LevelSelection(self.game)
                         self.level_select_state.enter_state(p1_selected, p2_selected)
                         #self.level_state.enter_state(self.player1, self.player2, 1)

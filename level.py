@@ -30,8 +30,8 @@ class Level(State):
 
     def update(self, actions):
         self.screen_width, self.screen_height = self.game.screen.get_size()
-        #self.player1.update()
-        #self.player2.update() # beep boop dingleberry
+        self.player1.update()
+        self.player2.update() # beep boop dingleberry
         
         for event in pygame.event.get():
             if event.type == pygame.MOUSEBUTTONDOWN:
@@ -65,6 +65,8 @@ class Level(State):
 
         text_surface = self.font.render(str(math.ceil(time)), True, (255,0,0))
         label_rect = pygame.rect.Rect(self.screen_width * 0.5 - (self.screen_width * 0.015), 0, 0, self.screen_height * 0.05)
+        pygame.draw.circle(self.surface, (255,0,0), (self.screen_width/2, 0), self.screen_height *.075)
+        pygame.draw.circle(self.surface, (0,0,0), (self.screen_width/2, 0), self.screen_height *.05)
         self.surface.blit(text_surface, label_rect)
         #self.timer = pygame.time.get_ticks()
 
@@ -88,11 +90,17 @@ class Level(State):
         #for x in level1platforms:
             #pygame.draw.rect(self.surface, (0,0,0), x)
         
+
+    def check_collisions(self):
+        pass
+        #for p in self.platformRects:
+           # if self.player1.rect.colliderect(p):
+                
     def run(self):
         #self.camera()
         #self.tiles.draw(self.surface)
-        self.player1.update(self.tiles)
-        self.player2.update(self.tiles)
+        self.player1.update(self.platformRects)
+        self.player2.update(self.platformRects)
         #self.renderPlatforms()
         self.player1.draw(self.surface)
         self.player2.draw(self.surface)

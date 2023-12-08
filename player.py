@@ -1,7 +1,7 @@
 import pygame
 
 class Player(pygame.sprite.Sprite):
-    def __init__(self, player, name, pos, width, height, image):
+    def __init__(self, player, game, name, pos, width, height, image):
         super().__init__()
         self.player = player
         self.name = name
@@ -14,6 +14,7 @@ class Player(pygame.sprite.Sprite):
         #self.rect = pygame.rect.Rect(self.screen_width * self.x, self.screen_height * self.y, self.screen_width * self.w, self.screen_height * self.h)
 
         self.movable = True
+        self.right_facing = False
         self.gravity = 0.2
         self.jump_speed = -5
         self.vector = pygame.Vector2(0,0)
@@ -26,8 +27,12 @@ class Player(pygame.sprite.Sprite):
         self.canJump = True
         self.health = 100
         self.font = pygame.font.SysFont('Arial', 25)
+        self.screen_w, self.screen_h = game.screen.get_size()
+        self.rect=  pygame.rect.Rect(self.screen_w * self.x, self.screen_h * self.y, self.screen_w * self.w, self.screen_h * self.h)
+
     
     def draw(self, surface, screen_width, screen_height):
+        self.screen_w, self.screen_h = surface.get_size()        
         #pygame.draw.rect(surface, (0,0,0), self.rect)
         text_surface = self.font.render(self.name, True, (255,0,0))
         label_rect = pygame.rect.Rect(screen_width * self.x, screen_height * self.y - 50, screen_width *0.10, screen_height * 0.10)
@@ -41,19 +46,22 @@ class Player(pygame.sprite.Sprite):
 
         self.rect = pygame.rect.Rect(screen_width * self.x, screen_height * self.y, screen_width * self.w, screen_height * self.h)
         surface.blit(pygame.transform.scale(self.img, (self.rect.w, self.rect.h)), self.rect)
-            
+        
         if self.player == 1:
             corner_image_rect = pygame.rect.Rect(0, 0, screen_width * 0.1 , screen_height * 0.1)
             pygame.draw.rect(surface, (0,0,0), corner_image_rect)
             health_rect = pygame.rect.Rect(screen_width * 0.1, 0, screen_width *0.5 - screen_width * 0.1, screen_height * 0.02)
             pygame.draw.rect(surface, color, health_rect)
-
+            pygame.draw.circle(surface, (255,0,0), (0, 0), self.screen_w *.13)
+            pygame.draw.circle(surface, (0,0,0), (0, 0), self.screen_w *.11)
             surface.blit(pygame.transform.scale(self.img, (0.10 * screen_width, 0.10 * screen_height)), corner_image_rect)
         elif self.player == 2:
             corner_image_rect = pygame.rect.Rect(screen_width * .9, 0, screen_width * 0.1, screen_height * 0.1)
             pygame.draw.rect(surface, (0,0,0), corner_image_rect)
             health_rect = pygame.rect.Rect(screen_width * 0.5, 0, screen_width *0.5 - screen_width * 0.1, screen_height * 0.02)
             pygame.draw.rect(surface, color, health_rect)
+            pygame.draw.circle(surface, (255,0,0), (self.screen_w, 0), self.screen_w *.13)
+            pygame.draw.circle(surface, (0,0,0), (self.screen_w, 0), self.screen_w *.11)
             surface.blit(pygame.transform.scale(self.img, (0.10 * screen_width, 0.10 * screen_height)), corner_image_rect)
         
 
@@ -62,17 +70,21 @@ class Player(pygame.sprite.Sprite):
             if self.player == 1:
                 keys = pygame.key.get_pressed()
                 if keys[pygame.K_a]:
-                    self.vector.x = -1
+                    if self.vector.x >= -4:
+                        self.vector.x -= 1
                 elif keys[pygame.K_d]:
-                    self.vector.x = 1
+                    if self.vector.x <= 4:
+                        self.vector.x += 1
                 if keys[pygame.K_w]:
                     self.jump()
             if self.player == 2:
                 keys = pygame.key.get_pressed()
                 if keys[pygame.K_LEFT]:
-                    self.vector.x = -1
+                    if self.vector.x >= -4:
+                        self.vector.x -= 1
                 elif keys[pygame.K_RIGHT]:
-                    self.vector.x = 1
+                    if self.vector.x <= 4:
+                        self.vector.x += 1
                 if keys[pygame.K_UP]:
                     self.jump()
 
@@ -123,15 +135,23 @@ class Player(pygame.sprite.Sprite):
             
     def apply_gravity(self):
         self.vector.y += self.gravity
-        self.rect.y += self.vector.y
+        self.y += self.vector.y
     def move(self):
-        self.rect.x += self.vector.x * self.speed
+        self.x += (self.vector.x * self.speed)/200
         self.vector.x = 0
-        self.rect.y += self.vector.y * self.speed
+        self.y += (self.vector.y * self.speed)/200
 
-    def update(self, sprites):
+    def update(self):
+        #self.rect = self.x
         self.get_input()
         #self.apply_gravity()
-        self.vertical_movement_collision(sprites)
-        self.horizontal_movement_collision(sprites)
+        #self.vertical_movement_collision(sprites)
+        #self.horizontal_movement_collision(sprites)
         self.move()
+
+#Platform collisions
+
+    def check_collisions():
+        pass
+#Movement fixes (DOWN) & (SPEED)
+#Attak Moves
