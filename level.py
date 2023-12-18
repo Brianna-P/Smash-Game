@@ -13,7 +13,8 @@ class Level(State):
         level = 1
         self.layout = level
         self.surface = self.game.screen
-        self.platformRects = level1platforms
+        self.platform_rects = []
+
         self.tile_size = tile_size
         self.tiles = pygame.sprite.Group()
         self.zoom_factor = 1
@@ -24,6 +25,7 @@ class Level(State):
         self.font = pygame.font.SysFont('Arial', 25)
 
         self.screen_width, self.screen_height = self.game.screen.get_size()
+
         #self.player1 = Player(1, (4 * self.tile_size + 32, 6* self.tile_size), 32, 64)
         #self.player2 = Player(2, (15 * self.tile_size + 32,6 * self.tile_size), 32, 64)
 
@@ -32,6 +34,7 @@ class Level(State):
         self.screen_width, self.screen_height = self.game.screen.get_size()
         self.player1.update()
         self.player2.update() # beep boop dingleberry
+        self.check_collisions()
         
         for event in pygame.event.get():
             if event.type == pygame.MOUSEBUTTONDOWN:
@@ -48,7 +51,7 @@ class Level(State):
 
         
     def render_level(self):
-        for p in self.platformRects:
+        for p in level1platforms:
             temp_rect = pygame.rect.Rect(self.screen_width* p[0], self.screen_height * p[1], self.screen_width * p[2], self.screen_height * p[3])
             pygame.draw.rect(self.surface, (0,0,0), temp_rect)
         
@@ -85,22 +88,35 @@ class Level(State):
                     self.player2 = Player(2, (x,y), 32, 64)
                     #player = Player((x,y), self.tile_size)
                     #self.tiles.add(player)
-    def renderPlatforms(self):
+    def render_platforms(self):
         self.tiles.draw(self.surface)
         #for x in level1platforms:
             #pygame.draw.rect(self.surface, (0,0,0), x)
         
 
     def check_collisions(self):
-        pass
-        #for p in self.platformRects:
-           # if self.player1.rect.colliderect(p):
+        if(self.player1.mask.overlap(self.player2.mask, (self.player2.rect.x - self.player1.rect.x, self.player2.rect.y - self.player1.rect.y))):
+            print("masking")
+            if(self.player1.currently_attacking and not self.player2.currently_blocking):
+                self.player2.health -= 1
+            if(self.player2.currently_attacking and not self.player1.currently_blocking):
+                self.player1.health -= 1
+
+        for p in self.platform_rects:
+            if self.player1.rect.colliderect(p):
+                if self.player1.vector.y > 0:
+                    self.player1.rect.bottom = p.top
+                print("platform")
+            if self.player2.rect.colliderect(p):
+                if self.player2.vector.y > 0:
+                    self.player2.rect.bottom = p.top
+
                 
     def run(self):
         #self.camera()
         #self.tiles.draw(self.surface)
-        self.player1.update(self.platformRects)
-        self.player2.update(self.platformRects)
+        self.player1.update(self.platform_rects)
+        self.player2.update(self.platform_rects)
         #self.renderPlatforms()
         self.player1.draw(self.surface)
         self.player2.draw(self.surface)
